@@ -4,6 +4,7 @@ import { useI18n } from '../i18n/i18n';
 import { educationOptions, skillsData, sectorsData, locationOptions } from '../data/mockData';
 
 interface OnboardingData {
+  age: string;
   education: string;
   skills: string[];
   sectors: string[];
@@ -18,6 +19,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ onComplete }) => {
   const { t } = useI18n();
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<OnboardingData>({
+    age: '',
     education: '',
     skills: [],
     sectors: [],
@@ -30,12 +32,21 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ onComplete }) => {
     
     switch (step) {
       case 1:
-        if (!formData.education) newErrors.push(t('onboard.validation.education'));
+        if (!formData.age) newErrors.push('Please enter your age');
+        else {
+          const age = parseInt(formData.age);
+          if (age < 21 || age > 24) {
+            newErrors.push('Age must be between 21-24 years for internship eligibility');
+          }
+        }
         break;
       case 2:
-        if (formData.skills.length === 0) newErrors.push(t('onboard.validation.skills'));
+        if (!formData.education) newErrors.push(t('onboard.validation.education'));
         break;
       case 3:
+        if (formData.skills.length === 0) newErrors.push(t('onboard.validation.skills'));
+        break;
+      case 4:
         if (formData.sectors.length === 0) newErrors.push(t('onboard.validation.sectors'));
         break;
     }
@@ -46,7 +57,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ onComplete }) => {
 
   const nextStep = () => {
     if (validateStep(currentStep)) {
-      if (currentStep < 4) {
+      if (currentStep < 5) {
         setCurrentStep(currentStep + 1);
       }
     }
@@ -89,7 +100,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ onComplete }) => {
 
   const StepIndicator = () => (
     <div className="flex items-center justify-center space-x-4 mb-8">
-      {[1, 2, 3, 4].map((step) => (
+      {[1, 2, 3, 4, 5].map((step) => (
         <div key={step} className="flex items-center">
           <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-colors ${
             step <= currentStep 
@@ -98,7 +109,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ onComplete }) => {
           }`}>
             {step < currentStep ? <CheckCircle className="w-5 h-5" /> : step}
           </div>
-          {step < 4 && (
+          {step < 5 && (
             <div className={`w-16 h-1 mx-2 transition-colors ${
               step < currentStep ? 'bg-blue-600' : 'bg-gray-200'
             }`} />
@@ -135,8 +146,38 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ onComplete }) => {
 
           {/* Step Content */}
           <div className="min-h-[400px]">
-            {/* Step 1: Education */}
+            {/* Step 1: Age Verification */}
             {currentStep === 1 && (
+              <div className="space-y-6">
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-2xl">🎂</span>
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                    Age Verification
+                  </h3>
+                  <p className="text-gray-600">Please enter your age to verify internship eligibility</p>
+                </div>
+                
+                <div className="max-w-md mx-auto">
+                  <input
+                    type="number"
+                    min="18"
+                    max="30"
+                    value={formData.age}
+                    onChange={(e) => updateFormData('age', e.target.value)}
+                    placeholder="Enter your age"
+                    className="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-orange-500 focus:outline-none text-lg text-center"
+                  />
+                  <p className="text-sm text-gray-500 mt-2 text-center">
+                    Internship portal is only for ages 21-24
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Step 2: Education */}
+            {currentStep === 2 && (
               <div className="space-y-6">
                 <div className="text-center">
                   <GraduationCap className="w-16 h-16 text-blue-600 mx-auto mb-4" />
@@ -164,8 +205,8 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ onComplete }) => {
               </div>
             )}
 
-            {/* Step 2: Skills */}
-            {currentStep === 2 && (
+            {/* Step 3: Skills */}
+            {currentStep === 3 && (
               <div className="space-y-6">
                 <div className="text-center">
                   <Briefcase className="w-16 h-16 text-green-600 mx-auto mb-4" />
@@ -200,8 +241,8 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ onComplete }) => {
               </div>
             )}
 
-            {/* Step 3: Sectors */}
-            {currentStep === 3 && (
+            {/* Step 4: Sectors */}
+            {currentStep === 4 && (
               <div className="space-y-6">
                 <div className="text-center">
                   <Target className="w-16 h-16 text-purple-600 mx-auto mb-4" />
@@ -230,8 +271,8 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ onComplete }) => {
               </div>
             )}
 
-            {/* Step 4: Location */}
-            {currentStep === 4 && (
+            {/* Step 5: Location */}
+            {currentStep === 5 && (
               <div className="space-y-6">
                 <div className="text-center">
                   <MapPin className="w-16 h-16 text-orange-600 mx-auto mb-4" />
@@ -275,10 +316,10 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ onComplete }) => {
             </button>
 
             <div className="text-sm text-gray-500">
-              Step {currentStep} of 4
+              Step {currentStep} of 5
             </div>
 
-            {currentStep < 4 ? (
+            {currentStep < 5 ? (
               <button
                 onClick={nextStep}
                 className="flex items-center space-x-2 bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition-colors font-medium"
