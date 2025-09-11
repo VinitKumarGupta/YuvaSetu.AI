@@ -2,8 +2,11 @@ import React, { useState, useRef } from 'react';
 import HeroSection from '../components/HeroSection';
 import OnboardingForm from '../components/OnboardingForm';
 import RecommendationResults from '../components/RecommendationResults';
+import SmartRecommendations from '../components/SmartRecommendations';
+import ProgressTracker from '../components/ProgressTracker';
 
 interface OnboardingData {
+  age: string;
   education: string;
   skills: string[];
   sectors: string[];
@@ -82,6 +85,18 @@ const Home: React.FC = () => {
           <div id="results">
             <RecommendationResults data={onboardingData} />
           </div>
+        )}
+
+        {/* Smart Recommendations Section */}
+        {!showOnboarding && !showResults && (
+          <section className="bg-gray-50 py-20">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="grid lg:grid-cols-2 gap-8">
+                <SmartRecommendations />
+                <ProgressTracker />
+              </div>
+            </div>
+          </section>
         )}
       </main>
     </div>

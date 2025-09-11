@@ -1,12 +1,41 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-type Language = 'en' | 'hi';
+// 22 Official Languages of India
+type Language = 'en' | 'hi' | 'bn' | 'te' | 'mr' | 'ta' | 'ur' | 'gu' | 'kn' | 'or' | 'pa' | 'as' | 'ml' | 'ne' | 'sa' | 'sd' | 'ks' | 'bo' | 'mni' | 'lus' | 'brx' | 'gom';
 
 interface I18nContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
   t: (key: string) => string;
+  languageNames: typeof languageNames;
+  isTranslating: boolean;
 }
+
+// Language names in their native scripts
+const languageNames = {
+  en: 'English',
+  hi: 'हिंदी',
+  bn: 'বাংলা',
+  te: 'తెలుగు',
+  mr: 'मराठी',
+  ta: 'தமிழ்',
+  ur: 'اردو',
+  gu: 'ગુજરાતી',
+  kn: 'ಕನ್ನಡ',
+  or: 'ଓଡ଼ିଆ',
+  pa: 'ਪੰਜਾਬੀ',
+  as: 'অসমীয়া',
+  ml: 'മലയാളം',
+  ne: 'नेपाली',
+  sa: 'संस्कृतम्',
+  sd: 'سنڌي',
+  ks: 'کٲشُر',
+  bo: 'བོད་ཡིག',
+  mni: 'ꯃꯤꯇꯩꯂꯣꯟ',
+  lus: 'Mizo',
+  brx: 'बड़ो',
+  gom: 'कोंकणी'
+};
 
 const translations = {
   en: {
@@ -197,23 +226,75 @@ const translations = {
 
 const I18nContext = createContext<I18nContextType | undefined>(undefined);
 
+// Translation service using Google Translate API
+const translateText = async (text: string, targetLang: string): Promise<string> => {
+  try {
+    // Using Google Translate API (free tier)
+    const response = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${targetLang}&dt=t&q=${encodeURIComponent(text)}`);
+    const data = await response.json();
+    return data[0][0][0] || text;
+  } catch (error) {
+    console.warn('Translation failed:', error);
+    return text; // Fallback to original text
+  }
+};
+
 export const I18nProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [language, setLanguage] = useState<Language>(() => {
     const saved = localStorage.getItem('ys_language');
     return (saved as Language) || 'en';
   });
+  const [isTranslating, setIsTranslating] = useState(false);
+  const [translationCache, setTranslationCache] = useState<Record<string, Record<string, string>>>({});
 
-  const handleSetLanguage = (lang: Language) => {
+  const handleSetLanguage = async (lang: Language) => {
     setLanguage(lang);
     localStorage.setItem('ys_language', lang);
+    
+    // If switching to a non-English language, translate missing keys
+    if (lang !== 'en' && !translationCache[lang]) {
+      setIsTranslating(true);
+      const newTranslations: Record<string, string> = {};
+      
+      // Translate all English keys
+      const englishKeys = Object.keys(translations.en);
+      for (const key of englishKeys) {
+        const englishText = translations.en[key as keyof typeof translations['en']];
+        const translatedText = await translateText(englishText, lang);
+        newTranslations[key] = translatedText;
+      }
+      
+      setTranslationCache(prev => ({
+        ...prev,
+        [lang]: newTranslations
+      }));
+      setIsTranslating(false);
+    }
   };
 
   const t = (key: string): string => {
-    return translations[language][key as keyof typeof translations['en']] || key;
+    // Return cached translation if available
+    if (language !== 'en' && translationCache[language]?.[key]) {
+      return translationCache[language][key];
+    }
+    
+    // Return hardcoded translation if available
+    if (translations[language]?.[key as keyof typeof translations['en']]) {
+      return translations[language][key as keyof typeof translations['en']];
+    }
+    
+    // Fallback to English
+    return translations.en[key as keyof typeof translations['en']] || key;
   };
 
   return (
-    <I18nContext.Provider value={{ language, setLanguage: handleSetLanguage, t }}>
+    <I18nContext.Provider value={{ 
+      language, 
+      setLanguage: handleSetLanguage, 
+      t, 
+      languageNames,
+      isTranslating 
+    }}>
       {children}
     </I18nContext.Provider>
   );

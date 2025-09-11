@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { I18nProvider } from './i18n/i18n';
 import Header from './components/Header';
@@ -10,8 +10,34 @@ import Saved from './pages/Saved';
 import Learn from './pages/Learn';
 import InternshipDetails from './pages/InternshipDetails';
 import NotFound from './pages/NotFound';
+import AccessibilityFeatures from './components/AccessibilityFeatures';
 
 function App() {
+  const [speechSynthesis, setSpeechSynthesis] = useState<SpeechSynthesis | null>(null);
+
+  React.useEffect(() => {
+    if ('speechSynthesis' in window) {
+      setSpeechSynthesis(window.speechSynthesis);
+    }
+  }, []);
+
+  const handleTextToSpeech = (text: string) => {
+    if (speechSynthesis) {
+      speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-IN';
+      utterance.rate = 0.8;
+      utterance.pitch = 1;
+      speechSynthesis.speak(utterance);
+    }
+  };
+
+  const handleStopSpeech = () => {
+    if (speechSynthesis) {
+      speechSynthesis.cancel();
+    }
+  };
+
   return (
     <I18nProvider>
       <Router>
@@ -29,6 +55,10 @@ function App() {
             </Routes>
           </main>
           <Footer />
+          <AccessibilityFeatures 
+            onTextToSpeech={handleTextToSpeech}
+            onStopSpeech={handleStopSpeech}
+          />
         </div>
       </Router>
     </I18nProvider>
