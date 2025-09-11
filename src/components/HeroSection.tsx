@@ -51,7 +51,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onStartJourney }) => {
             <div className="absolute top-40 right-20 w-16 h-16 bg-orange-100 rounded-full opacity-20 animate-pulse delay-1000"></div>
             <div className="absolute bottom-20 left-20 w-12 h-12 bg-purple-100 rounded-full opacity-20 animate-pulse delay-2000"></div>
 
-            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
+            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
                     {/* Left Content */}
                     <div className="text-center lg:text-left">
