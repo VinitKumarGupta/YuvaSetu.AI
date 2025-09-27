@@ -21,39 +21,42 @@ const Header: React.FC = () => {
     };
 
     return (
-        <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <header className="header-govt sticky top-0 z-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     {/* Logo */}
                     <Link to="/" className="flex items-center space-x-4 py-2">
                         <img
                             src="/logo.svg"
-                            alt="MCA Logo"
+                            alt="Government of India Logo"
                             className="h-10 w-auto sm:h-12 md:h-14 lg:h-14"
                         />
                         <div className="hidden sm:block pl-2">
-                            <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-orange-500 bg-clip-text text-transparent">
+                            <h1 className="text-govt-lg sm:text-govt-xl font-bold text-govt-blue-800">
                                 YuvaSetu.AI
                             </h1>
+                            <p className="text-govt-xs text-gray-600 font-medium">
+                                PM Internship Scheme Initiative
+                            </p>
                         </div>
-                    </Link>{" "}
+                    </Link>
                     {/* Navigation */}
                     <nav className="hidden md:flex items-center space-x-8">
                         <Link
                             to="/"
-                            className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+                            className="text-govt-blue-800 hover:text-govt-orange-500 transition-colors font-semibold text-govt-base"
                         >
                             {t("nav.home")}
                         </Link>
                         <Link
                             to="/saved"
-                            className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+                            className="text-govt-blue-800 hover:text-govt-orange-500 transition-colors font-semibold text-govt-base"
                         >
                             {t("nav.saved")}
                         </Link>
                         <Link
                             to="/learn"
-                            className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+                            className="text-govt-blue-800 hover:text-govt-orange-500 transition-colors font-semibold text-govt-base"
                         >
                             {t("nav.learn")}
                         </Link>
@@ -146,7 +149,7 @@ const Header: React.FC = () => {
                         ) : (
                             <Link
                                 to="/login"
-                                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                                className="btn-govt-primary"
                             >
                                 {t("nav.login")}
                             </Link>

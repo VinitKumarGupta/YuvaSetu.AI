@@ -2,6 +2,67 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Government Portal Styles */
+@layer base {
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: #ffffff;
+    color: #1f2937;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 700;
+    color: #1f2937;
+  }
+}
+
+@layer components {
+  /* Government Button Styles */
+  .btn-govt-primary {
+    @apply bg-govt-orange-500 text-white px-6 py-3 rounded-lg font-semibold text-govt-base border-2 border-govt-orange-500 hover:bg-govt-orange-600 hover:border-govt-orange-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-govt-orange-500 focus:ring-offset-2;
+  }
+  
+  .btn-govt-secondary {
+    @apply bg-govt-blue-500 text-white px-6 py-3 rounded-lg font-semibold text-govt-base border-2 border-govt-blue-500 hover:bg-govt-blue-600 hover:border-govt-blue-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-govt-blue-500 focus:ring-offset-2;
+  }
+  
+  .btn-govt-outline {
+    @apply bg-white text-govt-blue-600 px-6 py-3 rounded-lg font-semibold text-govt-base border-2 border-govt-blue-600 hover:bg-govt-blue-50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-govt-blue-500 focus:ring-offset-2;
+  }
+  
+  /* Government Card Styles */
+  .card-govt {
+    @apply bg-white border-2 border-gray-200 rounded-lg shadow-govt hover:shadow-govt-lg transition-shadow duration-200;
+  }
+  
+  .card-govt-header {
+    @apply bg-govt-blue-50 border-b-2 border-govt-blue-200 px-6 py-4 rounded-t-lg;
+  }
+  
+  .card-govt-body {
+    @apply px-6 py-4;
+  }
+  
+  /* Government Header Styles */
+  .header-govt {
+    @apply bg-white border-b-4 border-govt-orange-500 shadow-govt;
+  }
+  
+  /* Government Text Styles */
+  .text-govt-heading {
+    @apply text-govt-blue-800 font-bold;
+  }
+  
+  .text-govt-subheading {
+    @apply text-gray-700 font-semibold;
+  }
+  
+  .text-govt-body {
+    @apply text-gray-600;
+  }
+}
+
 /* Accessibility Features */
 .high-contrast {
   filter: contrast(150%) brightness(120%);
@@ -65,5 +126,20 @@
   
   .border-gray-200 {
     border-color: #000000 !important;
+  }
+}
+
+/* Mobile-first responsive utilities */
+@media (max-width: 640px) {
+  .mobile-text-center {
+    text-align: center;
+  }
+  
+  .mobile-full-width {
+    width: 100%;
+  }
+  
+  .mobile-p-4 {
+    padding: 1rem;
   }
 }

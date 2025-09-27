@@ -247,37 +247,40 @@ const RecommendationResults: React.FC<RecommendationResultsProps> = ({
 
     if (recommendations.length === 0) {
         return (
-            <section className="bg-white py-20">
+            <section className="bg-govt-white py-20">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <div className="bg-orange-50 rounded-2xl p-12">
-                        <BookOpen className="w-16 h-16 text-orange-500 mx-auto mb-6" />
-                        <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                            {t("rec.skillgap.title")}
-                        </h3>
-                        <p className="text-gray-600 mb-8">
-                            {t("rec.skillgap.subtitle")}
-                        </p>
-
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-8">
-                            {skillGaps.map((skill, index) => (
-                                <div
-                                    key={index}
-                                    className="bg-white p-3 rounded-lg border border-orange-200"
-                                >
-                                    <span className="text-sm font-medium text-gray-700">
-                                        {skill}
-                                    </span>
-                                </div>
-                            ))}
+                    <div className="card-govt p-12">
+                        <div className="card-govt-header">
+                            <BookOpen className="w-16 h-16 text-govt-orange-500 mx-auto mb-6" />
+                            <h3 className="text-govt-3xl font-bold text-govt-blue-800 mb-4">
+                                {t("rec.skillgap.title")}
+                            </h3>
+                            <p className="text-govt-lg text-gray-700 mb-8 font-medium">
+                                {t("rec.skillgap.subtitle")}
+                            </p>
                         </div>
+                        <div className="card-govt-body">
+                            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-8">
+                                {skillGaps.map((skill, index) => (
+                                    <div
+                                        key={index}
+                                        className="bg-govt-orange-50 p-3 rounded-lg border-2 border-govt-orange-200"
+                                    >
+                                        <span className="text-govt-sm font-semibold text-govt-orange-800">
+                                            {skill}
+                                        </span>
+                                    </div>
+                                ))}
+                            </div>
 
-                        <Link
-                            to="/learn"
-                            className="inline-flex items-center space-x-2 bg-orange-500 text-white px-8 py-4 rounded-xl hover:bg-orange-600 transition-colors font-semibold"
-                        >
-                            <BookOpen className="w-5 h-5" />
-                            <span>{t("rec.skillgap.cta")}</span>
-                        </Link>
+                            <Link
+                                to="/learn"
+                                className="btn-govt-primary text-govt-lg px-8 py-4 inline-flex items-center space-x-2"
+                            >
+                                <BookOpen className="w-5 h-5" />
+                                <span>{t("rec.skillgap.cta")}</span>
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -285,13 +288,13 @@ const RecommendationResults: React.FC<RecommendationResultsProps> = ({
     }
 
     return (
-        <section className="bg-white py-20">
+        <section className="bg-govt-white py-20">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-12">
-                    <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                    <h2 className="text-govt-4xl lg:text-govt-5xl font-bold text-govt-blue-800 mb-4">
                         {t("rec.title")}
                     </h2>
-                    <p className="text-xl text-gray-600">{t("rec.subtitle")}</p>
+                    <p className="text-govt-xl text-gray-700 font-medium">{t("rec.subtitle")}</p>
                 </div>
 
                 <div className="grid gap-8">
@@ -303,7 +306,7 @@ const RecommendationResults: React.FC<RecommendationResultsProps> = ({
                         return (
                             <div
                                 key={internship.id}
-                                className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 sm:p-8 hover:shadow-xl transition-shadow"
+                                className="card-govt p-6 sm:p-8"
                             >
                                 <div className="flex flex-col md:flex-row md:items-start md:space-x-8">
                                     {/* Main Content */}
@@ -311,16 +314,16 @@ const RecommendationResults: React.FC<RecommendationResultsProps> = ({
                                         <div>
                                             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4">
                                                 <div>
-                                                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
+                                                    <h3 className="text-govt-xl sm:text-govt-2xl font-bold text-govt-blue-800 mb-2">
                                                         {internship.title}
                                                     </h3>
-                                                    <p className="text-md sm:text-lg text-gray-600 font-medium">
+                                                    <p className="text-govt-lg sm:text-govt-xl text-gray-700 font-semibold">
                                                         {internship.company}
                                                     </p>
                                                 </div>
-                                                <div className="flex-shrink-0 mt-2 sm:mt-0 items-center space-x-2 bg-gradient-to-r from-blue-50 to-purple-50 px-4 py-2 rounded-full">
-                                                    <TrendingUp className="w-4 h-4 text-blue-600 inline-block" />
-                                                    <span className="text-sm font-semibold text-blue-600">
+                                                <div className="flex-shrink-0 mt-2 sm:mt-0 items-center space-x-2 bg-govt-blue-50 px-4 py-2 rounded-lg border-2 border-govt-blue-200">
+                                                    <TrendingUp className="w-4 h-4 text-govt-blue-600 inline-block" />
+                                                    <span className="text-govt-sm font-bold text-govt-blue-600">
                                                         #{index + 1}{" "}
                                                         {t("rec.match")}
                                                     </span>
@@ -330,10 +333,10 @@ const RecommendationResults: React.FC<RecommendationResultsProps> = ({
                                             {/* Match Score */}
                                             <div className="mb-6">
                                                 <div className="flex items-center justify-between mb-2">
-                                                    <span className="text-sm font-medium text-gray-600">
+                                                    <span className="text-govt-sm font-semibold text-gray-700">
                                                         {t("rec.match")} Score
                                                     </span>
-                                                    <span className="text-sm font-bold text-gray-800">
+                                                    <span className="text-govt-sm font-bold text-govt-blue-800">
                                                         {internship.matchScore}%
                                                     </span>
                                                 </div>
@@ -345,9 +348,9 @@ const RecommendationResults: React.FC<RecommendationResultsProps> = ({
                                             </div>
 
                                             {/* AI Insight */}
-                                            <div className="bg-blue-50 rounded-xl p-4 mb-6">
-                                                <p className="text-blue-800 text-sm">
-                                                    <span className="font-semibold">
+                                            <div className="bg-govt-blue-50 rounded-lg p-4 mb-6 border-2 border-govt-blue-200">
+                                                <p className="text-govt-blue-800 text-govt-sm font-medium">
+                                                    <span className="font-bold">
                                                         🤖 AI Insight:{" "}
                                                     </span>
                                                     {t("rec.insight")}{" "}
@@ -371,20 +374,20 @@ const RecommendationResults: React.FC<RecommendationResultsProps> = ({
                                             {/* Details Grid */}
                                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                                                 <div className="flex items-center space-x-2">
-                                                    <MapPin className="w-5 h-5 text-gray-500 flex-shrink-0" />
-                                                    <span className="text-sm text-gray-700">
+                                                    <MapPin className="w-5 h-5 text-govt-blue-600 flex-shrink-0" />
+                                                    <span className="text-govt-sm text-gray-700 font-medium">
                                                         {internship.location}
                                                     </span>
                                                 </div>
                                                 <div className="flex items-center space-x-2">
-                                                    <Calendar className="w-5 h-5 text-gray-500 flex-shrink-0" />
-                                                    <span className="text-sm text-gray-700">
+                                                    <Calendar className="w-5 h-5 text-govt-blue-600 flex-shrink-0" />
+                                                    <span className="text-govt-sm text-gray-700 font-medium">
                                                         {internship.duration}
                                                     </span>
                                                 </div>
                                                 <div className="flex items-center space-x-2">
-                                                    <DollarSign className="w-5 h-5 text-gray-500 flex-shrink-0" />
-                                                    <span className="text-sm text-gray-700">
+                                                    <DollarSign className="w-5 h-5 text-govt-blue-600 flex-shrink-0" />
+                                                    <span className="text-govt-sm text-gray-700 font-medium">
                                                         {internship.stipend}
                                                     </span>
                                                 </div>
@@ -404,10 +407,10 @@ const RecommendationResults: React.FC<RecommendationResultsProps> = ({
                                                                     key={
                                                                         skillIndex
                                                                     }
-                                                                    className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+                                                                    className={`inline-flex items-center px-3 py-1 rounded-lg text-govt-sm font-semibold border-2 ${
                                                                         isMatched
-                                                                            ? "bg-green-100 text-green-800 border border-green-300"
-                                                                            : "bg-gray-100 text-gray-700"
+                                                                            ? "bg-govt-green-100 text-govt-green border-govt-green"
+                                                                            : "bg-govt-blue-50 text-govt-blue-800 border-govt-blue-200"
                                                                     }`}
                                                                 >
                                                                     {isMatched && (
@@ -422,7 +425,7 @@ const RecommendationResults: React.FC<RecommendationResultsProps> = ({
                                             </div>
 
                                             {/* Description */}
-                                            <p className="text-gray-600 leading-relaxed">
+                                            <p className="text-gray-700 leading-relaxed font-medium">
                                                 {internship.description}
                                             </p>
                                         </div>
@@ -434,7 +437,7 @@ const RecommendationResults: React.FC<RecommendationResultsProps> = ({
                                             href="https://internship.gov.in"
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-3 rounded-xl hover:shadow-lg transition-all font-semibold"
+                                            className="btn-govt-primary flex items-center justify-center space-x-2"
                                         >
                                             <ExternalLink className="w-4 h-4" />
                                             <span>{t("rec.apply")}</span>
@@ -444,10 +447,10 @@ const RecommendationResults: React.FC<RecommendationResultsProps> = ({
                                             onClick={() =>
                                                 handleSaveToggle(internship.id)
                                             }
-                                            className={`flex items-center justify-center space-x-2 px-4 py-3 rounded-xl border-2 font-semibold transition-all ${
+                                            className={`flex items-center justify-center space-x-2 px-4 py-3 rounded-lg border-2 font-semibold transition-all ${
                                                 isSaved
-                                                    ? "border-green-600 text-green-600 bg-green-50 hover:bg-green-100"
-                                                    : "border-gray-300 text-gray-700 hover:border-gray-400 hover:bg-gray-50"
+                                                    ? "border-govt-green text-govt-green bg-govt-green-50 hover:bg-govt-green-100"
+                                                    : "border-govt-blue-300 text-govt-blue-700 hover:border-govt-blue-400 hover:bg-govt-blue-50"
                                             }`}
                                         >
                                             <Bookmark
@@ -469,7 +472,7 @@ const RecommendationResults: React.FC<RecommendationResultsProps> = ({
                                                 onClick={() =>
                                                     handleShare(internship)
                                                 }
-                                                className="flex items-center justify-center space-x-2 border-2 border-gray-300 text-gray-700 p-3 rounded-xl hover:border-gray-400 hover:bg-gray-50 transition-all font-semibold"
+                                                className="flex items-center justify-center space-x-2 border-2 border-govt-blue-300 text-govt-blue-700 p-3 rounded-lg hover:border-govt-blue-400 hover:bg-govt-blue-50 transition-all font-semibold"
                                             >
                                                 <Share2 className="w-4 h-4" />
                                             </button>
@@ -480,16 +483,16 @@ const RecommendationResults: React.FC<RecommendationResultsProps> = ({
                                                         internship
                                                     )
                                                 }
-                                                className="flex items-center justify-center space-x-2 border-2 border-gray-300 text-gray-700 p-3 rounded-xl hover:border-gray-400 hover:bg-gray-50 transition-all font-semibold"
+                                                className="flex items-center justify-center space-x-2 border-2 border-govt-blue-300 text-govt-blue-700 p-3 rounded-lg hover:border-govt-blue-400 hover:bg-govt-blue-50 transition-all font-semibold"
                                             >
                                                 <Download className="w-4 h-4" />
                                             </button>
 
                                             <Link
                                                 to={`/details/${internship.id}`}
-                                                className="flex items-center justify-center space-x-2 border-2 border-orange-300 text-orange-700 p-3 rounded-xl hover:border-orange-400 hover:bg-orange-50 transition-all font-semibold"
+                                                className="flex items-center justify-center space-x-2 border-2 border-govt-orange-300 text-govt-orange-700 p-3 rounded-lg hover:border-govt-orange-400 hover:bg-govt-orange-50 transition-all font-semibold"
                                             >
-                                                <span className="text-xs font-bold">
+                                                <span className="text-govt-xs font-bold">
                                                     VIEW
                                                 </span>
                                             </Link>
