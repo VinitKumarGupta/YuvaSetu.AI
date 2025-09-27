@@ -1,0 +1,122 @@
+[
+  {
+    "id": "1",
+    "title": "Digital Marketing Intern",
+    "company": "TechCorp India",
+    "sector": "Technology",
+    "skills": ["Digital Marketing", "Social Media", "Content Writing", "SEO", "Analytics"],
+    "location": "Mumbai, Maharashtra",
+    "duration": "3 months",
+    "stipend": "₹15,000/month",
+    "description": "Join our dynamic marketing team to create engaging digital campaigns and grow our online presence. You'll work on real projects and learn industry best practices.",
+    "requirements": ["Basic knowledge of social media platforms", "Good communication skills", "Creative mindset", "Familiarity with marketing tools"]
+  },
+  {
+    "id": "2",
+    "title": "Software Development Intern",
+    "company": "InnovateTech Solutions",
+    "sector": "Technology",
+    "skills": ["JavaScript", "React", "Node.js", "Python", "Database Management"],
+    "location": "Bangalore, Karnataka",
+    "duration": "6 months",
+    "stipend": "₹20,000/month",
+    "description": "Work with our engineering team to build cutting-edge web applications and learn modern development practices. Hands-on experience with real projects.",
+    "requirements": ["Knowledge of JavaScript", "Understanding of web development concepts", "Problem-solving skills", "Git version control"]
+  },
+  {
+    "id": "3",
+    "title": "Graphic Design Intern",
+    "company": "Creative Studio Pro",
+    "sector": "Design",
+    "skills": ["Graphic Design", "Adobe Creative Suite", "UI/UX Design", "Illustration", "Branding"],
+    "location": "Delhi, Delhi",
+    "duration": "4 months",
+    "stipend": "₹12,000/month",
+    "description": "Create visually stunning designs for digital and print media while learning from experienced designers. Work on diverse projects across multiple clients.",
+    "requirements": ["Proficiency in design software", "Creative portfolio", "Attention to detail", "Understanding of design principles"]
+  },
+  {
+    "id": "4",
+    "title": "Business Analyst Intern",
+    "company": "FinanceFirst Consulting",
+    "sector": "Finance",
+    "skills": ["Data Analysis", "Excel", "Business Intelligence", "SQL", "Financial Modeling"],
+    "location": "Pune, Maharashtra",
+    "duration": "3 months",
+    "stipend": "₹18,000/month",
+    "description": "Analyze business processes and help optimize operations through data-driven insights. Work with senior analysts on real business problems.",
+    "requirements": ["Strong analytical skills", "Proficiency in Excel", "Business acumen", "Statistical knowledge"]
+  },
+  {
+    "id": "5",
+    "title": "Content Writing Intern",
+    "company": "MediaMagnet Agency",
+    "sector": "Media",
+    "skills": ["Content Writing", "SEO", "Research", "Social Media", "Copywriting"],
+    "location": "Chennai, Tamil Nadu",
+    "duration": "2 months",
+    "stipend": "₹10,000/month",
+    "description": "Create engaging content for various digital platforms and learn SEO best practices. Work with content strategists and marketing teams.",
+    "requirements": ["Excellent writing skills", "Research abilities", "Creativity", "Understanding of SEO principles"]
+  },
+  {
+    "id": "6",
+    "title": "Data Science Intern",
+    "company": "DataDriven Solutions",
+    "sector": "Technology",
+    "skills": ["Python", "Machine Learning", "Data Analysis", "Statistics", "SQL"],
+    "location": "Hyderabad, Telangana",
+    "duration": "6 months",
+    "stipend": "₹25,000/month",
+    "description": "Work on real data science projects using Python and machine learning algorithms. Learn from experienced data scientists and contribute to live projects.",
+    "requirements": ["Python programming", "Basic statistics knowledge", "Problem-solving skills", "Familiarity with data analysis tools"]
+  },
+  {
+    "id": "7",
+    "title": "HR Operations Intern",
+    "company": "PeopleFirst Corp",
+    "sector": "Human Resources",
+    "skills": ["HR Management", "Recruitment", "Employee Relations", "Communication", "Administration"],
+    "location": "Kolkata, West Bengal",
+    "duration": "4 months",
+    "stipend": "₹14,000/month",
+    "description": "Gain hands-on experience in HR operations including recruitment, employee onboarding, and administrative tasks. Work closely with HR professionals.",
+    "requirements": ["Good communication skills", "Organizational abilities", "Understanding of HR processes", "Interpersonal skills"]
+  },
+  {
+    "id": "8",
+    "title": "Cybersecurity Intern",
+    "company": "SecureTech India",
+    "sector": "Technology",
+    "skills": ["Cybersecurity", "Network Security", "Ethical Hacking", "Linux", "Security Tools"],
+    "location": "Bangalore, Karnataka",
+    "duration": "5 months",
+    "stipend": "₹22,000/month",
+    "description": "Learn about cybersecurity practices and work on security assessments. Gain experience with security tools and penetration testing under guidance.",
+    "requirements": ["Basic networking knowledge", "Interest in cybersecurity", "Problem-solving skills", "Familiarity with Linux"]
+  },
+  {
+    "id": "9",
+    "title": "Financial Planning Intern",
+    "company": "WealthWise Advisors",
+    "sector": "Finance",
+    "skills": ["Financial Planning", "Investment Analysis", "Excel", "Market Research", "Client Relations"],
+    "location": "Mumbai, Maharashtra",
+    "duration": "3 months",
+    "stipend": "₹16,000/month",
+    "description": "Assist in financial planning and investment analysis. Work with senior advisors to understand client needs and market trends.",
+    "requirements": ["Finance background", "Analytical skills", "Excel proficiency", "Interest in investments"]
+  },
+  {
+    "id": "10",
+    "title": "UI/UX Design Intern",
+    "company": "DesignStudio India",
+    "sector": "Design",
+    "skills": ["UI/UX Design", "Figma", "User Research", "Prototyping", "Wireframing"],
+    "location": "Pune, Maharashtra",
+    "duration": "4 months",
+    "stipend": "₹13,000/month",
+    "description": "Design user interfaces and experiences for web and mobile applications. Work on real projects and learn design thinking methodologies.",
+    "requirements": ["Design software proficiency", "Creative thinking", "User empathy", "Portfolio of design work"]
+  }
+]
