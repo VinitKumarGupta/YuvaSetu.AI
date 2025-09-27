@@ -4,7 +4,6 @@ import OnboardingForm from "../components/OnboardingForm";
 import RecommendationResults from "../components/RecommendationResults";
 import SmartRecommendations from "../components/SmartRecommendations";
 import ProgressTracker from "../components/ProgressTracker";
-import IntegrationDemo from "../components/IntegrationDemo";
 import { isAuthenticated } from "../lib/auth";
 
 interface OnboardingData {
@@ -103,7 +102,7 @@ const Home: React.FC = () => {
 
                 {/* Smart Recommendations Section - only shown if logged in */}
                 {isLoggedIn && !showOnboarding && !showResults && (
-                    <section className="bg-govt-blue-50 py-20">
+                    <section className="bg-gray-50 py-20">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                             <div className="grid lg:grid-cols-2 gap-8">
                                 <SmartRecommendations />
@@ -112,9 +111,6 @@ const Home: React.FC = () => {
                         </div>
                     </section>
                 )}
-
-                {/* Integration Demo Section */}
-                <IntegrationDemo />
             </main>
         </div>
     );
