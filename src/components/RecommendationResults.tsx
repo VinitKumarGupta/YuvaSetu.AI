@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     ExternalLink,
     Bookmark,
@@ -10,10 +10,11 @@ import {
     TrendingUp,
     BookOpen,
     Check,
+    Loader2,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useI18n } from "../i18n/i18n";
-import { mockInternships, Internship } from "../data/mockData";
+import { apiService, InternshipRecommendation } from "../services/api";
 import {
     saveInternship,
     unsaveInternship,
@@ -23,6 +24,7 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
 interface OnboardingData {
+    age: string;
     education: string;
     skills: string[];
     sectors: string[];
@@ -37,64 +39,40 @@ const RecommendationResults: React.FC<RecommendationResultsProps> = ({
     data,
 }) => {
     const { t } = useI18n();
-    const [savedStates, setSavedStates] = useState<{ [key: string]: boolean }>(
-        {}
-    );
+    const [savedStates, setSavedStates] = useState<{ [key: string]: boolean }>({});
+    const [recommendations, setRecommendations] = useState<InternshipRecommendation[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
-    // Filter and score internships based on user data
-    const getRecommendations = (): Internship[] => {
-        return mockInternships
-            .map((internship) => {
-                let score = 0;
-                let matchedSkills: string[] = [];
+    useEffect(() => {
+        const fetchRecommendations = async () => {
+            try {
+                setLoading(true);
+                setError(null);
+                
+                const response = await apiService.getRecommendations({
+                    age: data.age,
+                    education: data.education,
+                    skills: data.skills,
+                    sectors: data.sectors,
+                    location: data.location
+                });
+                
+                setRecommendations(response.recommendations);
+            } catch (err) {
+                console.error('Failed to fetch recommendations:', err);
+                setError('Failed to load recommendations. Please try again.');
+            } finally {
+                setLoading(false);
+            }
+        };
 
-                // Skill matching (40% weight)
-                const skillMatches = internship.skills.filter((skill) =>
-                    data.skills.some(
-                        (userSkill) =>
-                            userSkill
-                                .toLowerCase()
-                                .includes(skill.toLowerCase()) ||
-                            skill
-                                .toLowerCase()
-                                .includes(userSkill.toLowerCase())
-                    )
-                );
-                matchedSkills = skillMatches;
-                score += (skillMatches.length / internship.skills.length) * 40;
-
-                // Sector matching (30% weight)
-                if (data.sectors.includes(internship.sector)) {
-                    score += 30;
-                }
-
-                // Location matching (20% weight)
-                if (internship.location.includes(data.location.split(",")[0])) {
-                    score += 20;
-                }
-
-                // Education level bonus (10% weight)
-                score += 10; // Base score for all internships
-
-                return {
-                    ...internship,
-                    matchScore: Math.min(Math.round(score), 95),
-                    matchReason: {
-                        skills: matchedSkills,
-                        sector: internship.sector,
-                    },
-                };
-            })
-            .filter((internship) => internship.matchScore > 30)
-            .sort((a, b) => b.matchScore - a.matchScore)
-            .slice(0, 5);
-    };
-
-    const recommendations = getRecommendations();
+        fetchRecommendations();
+    }, [data]);
 
     // Identify skill gaps
     const getSkillGaps = (): string[] => {
-        const allRecommendedSkills = mockInternships.flatMap((i) => i.skills);
+        const allRecommendedSkills = recommendations.flatMap((i) => i.skills);
         const uniqueSkills = [...new Set(allRecommendedSkills)];
         return uniqueSkills
             .filter(
@@ -127,7 +105,7 @@ const RecommendationResults: React.FC<RecommendationResultsProps> = ({
         }));
     };
 
-    const handleShare = async (internship: Internship) => {
+    const handleShare = async (internship: InternshipRecommendation) => {
         const shareData = {
             title: internship.title,
             text: `Check out this internship: ${internship.title} at ${internship.company}`,
@@ -153,7 +131,7 @@ const RecommendationResults: React.FC<RecommendationResultsProps> = ({
         }
     };
 
-    const handleDownloadPDF = async (internship: Internship) => {
+    const handleDownloadPDF = async (internship: InternshipRecommendation) => {
         // Create a temporary div with internship details
         const tempDiv = document.createElement("div");
         tempDiv.style.padding = "40px";
@@ -168,7 +146,7 @@ const RecommendationResults: React.FC<RecommendationResultsProps> = ({
         <h2 style="color: #666; margin-bottom: 20px;">${internship.company}</h2>
         <div style="display: inline-block; background: #f0f9ff; padding: 10px 20px; border-radius: 20px; margin-bottom: 20px;">
           <strong style="color: #0A4D8C;">Match Score: ${
-              internship.matchScore
+              internship.match_score
           }%</strong>
         </div>
       </div>
@@ -244,6 +222,53 @@ const RecommendationResults: React.FC<RecommendationResultsProps> = ({
             </span>
         </div>
     );
+
+    if (loading) {
+        return (
+            <section className="bg-white py-20">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <div className="bg-white rounded-2xl p-12 border-2 border-blue-200">
+                        <Loader2 className="w-16 h-16 text-blue-600 mx-auto mb-6 animate-spin" />
+                        <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                            🤖 AI is analyzing your profile...
+                        </h3>
+                        <p className="text-gray-600 mb-8">
+                            Finding the best internship matches for you
+                        </p>
+                        <div className="max-w-md mx-auto">
+                            <div className="bg-gray-200 rounded-full h-2 mb-4">
+                                <div className="bg-blue-600 h-2 rounded-full animate-pulse" style={{ width: "75%" }}></div>
+                            </div>
+                            <div className="text-sm text-gray-500">
+                                Matching skills and analyzing opportunities...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        );
+    }
+
+    if (error) {
+        return (
+            <section className="bg-white py-20">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <div className="bg-red-50 rounded-2xl p-12 border-2 border-red-200">
+                        <h3 className="text-2xl font-bold text-red-900 mb-4">
+                            ⚠️ Error Loading Recommendations
+                        </h3>
+                        <p className="text-red-700 mb-8">{error}</p>
+                        <button
+                            onClick={() => window.location.reload()}
+                            className="bg-red-600 text-white px-8 py-4 rounded-lg hover:bg-red-700 transition-colors font-bold"
+                        >
+                            Try Again
+                        </button>
+                    </div>
+                </div>
+            </section>
+        );
+    }
 
     if (recommendations.length === 0) {
         return (
@@ -334,12 +359,12 @@ const RecommendationResults: React.FC<RecommendationResultsProps> = ({
                                                         {t("rec.match")} Score
                                                     </span>
                                                     <span className="text-sm font-bold text-gray-800">
-                                                        {internship.matchScore}%
+                                                        {internship.match_score}%
                                                     </span>
                                                 </div>
                                                 <MatchMeter
                                                     score={
-                                                        internship.matchScore
+                                                        internship.match_score
                                                     }
                                                 />
                                             </div>
@@ -352,7 +377,7 @@ const RecommendationResults: React.FC<RecommendationResultsProps> = ({
                                                     </span>
                                                     {t("rec.insight")}{" "}
                                                     <strong>
-                                                        {internship.matchReason.skills.join(
+                                                        {internship.match_reason.skills.join(
                                                             ", "
                                                         )}
                                                     </strong>{" "}
@@ -360,7 +385,7 @@ const RecommendationResults: React.FC<RecommendationResultsProps> = ({
                                                     <strong>
                                                         {
                                                             internship
-                                                                .matchReason
+                                                                .match_reason
                                                                 .sector
                                                         }
                                                     </strong>
@@ -396,7 +421,7 @@ const RecommendationResults: React.FC<RecommendationResultsProps> = ({
                                                     {internship.skills.map(
                                                         (skill, skillIndex) => {
                                                             const isMatched =
-                                                                internship.matchReason.skills.includes(
+                                                                internship.match_reason.skills.includes(
                                                                     skill
                                                                 );
                                                             return (
