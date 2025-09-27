@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { I18nProvider } from './i18n/i18n';
 import Header from './components/Header';
+import EligibilityCarousel from './components/EligibilityCarousel';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -43,6 +44,7 @@ function App() {
       <Router>
         <div className="min-h-screen bg-white flex flex-col">
           <Header />
+          <EligibilityCarousel />
           <main className="flex-1">
             <Routes>
               <Route path="/" element={<Home />} />

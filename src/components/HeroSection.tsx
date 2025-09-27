@@ -19,7 +19,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onStartJourney }) => {
     const navigate = useNavigate();
 
     return (
-        <section className="relative bg-gradient-to-br from-blue-50 via-white to-orange-50 overflow-hidden">
+        <section className="relative bg-white overflow-hidden">
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-5">
                 <svg
@@ -46,10 +46,10 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onStartJourney }) => {
                 </svg>
             </div>
 
-            {/* Floating Elements */}
-            <div className="absolute top-20 left-10 w-20 h-20 bg-blue-100 rounded-full opacity-20 animate-pulse"></div>
-            <div className="absolute top-40 right-20 w-16 h-16 bg-orange-100 rounded-full opacity-20 animate-pulse delay-1000"></div>
-            <div className="absolute bottom-20 left-20 w-12 h-12 bg-purple-100 rounded-full opacity-20 animate-pulse delay-2000"></div>
+            {/* Government Pattern Elements */}
+            <div className="absolute top-20 left-10 w-20 h-20 bg-blue-100 opacity-10"></div>
+            <div className="absolute top-40 right-20 w-16 h-16 bg-orange-100 opacity-10"></div>
+            <div className="absolute bottom-20 left-20 w-12 h-12 bg-blue-100 opacity-10"></div>
 
             <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -68,10 +68,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onStartJourney }) => {
                         </div>
 
                         {/* Main Title */}
-                        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-                            <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-orange-500 bg-clip-text text-transparent">
-                                {t("hero.title")}
-                            </span>
+                        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-blue-600 mb-6 leading-tight">
+                            {t("hero.title")}
                         </h1>
 
                         {/* Subtitle */}
@@ -83,7 +81,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onStartJourney }) => {
                         <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-6">
                             <button
                                 onClick={onStartJourney}
-                                className="group bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl hover:shadow-lg transition-all duration-300 font-semibold text-lg flex items-center space-x-2 transform hover:scale-105 animate-pulse hover:animate-none"
+                                className="group bg-orange-600 text-white px-8 py-4 rounded-lg hover:bg-orange-700 transition-colors font-bold text-lg flex items-center space-x-2"
                                 aria-label={t("hero.start")}
                             >
                                 <span>{t("hero.start")}</span>
@@ -92,17 +90,17 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onStartJourney }) => {
 
                             <button
                                 onClick={() => navigate("/learn")}
-                                className="group bg-white text-gray-700 px-8 py-4 rounded-xl border-2 border-gray-200 hover:border-orange-300 hover:shadow-md transition-all duration-300 font-semibold text-lg flex items-center space-x-2 transform hover:scale-105"
+                                className="group bg-white text-gray-800 px-8 py-4 rounded-lg border-2 border-blue-600 hover:bg-blue-50 transition-colors font-bold text-lg flex items-center space-x-2"
                                 aria-label={t("hero.learn")}
                             >
-                                <BookOpen className="w-5 h-5 text-orange-500" />
+                                <BookOpen className="w-5 h-5 text-blue-600" />
                                 <span>{t("hero.learn")}</span>
                             </button>
                         </div>
 
                         {/* Stats */}
                         <div className="grid grid-cols-2 gap-6 mt-12">
-                            <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                            <div className="bg-white rounded-lg p-4 border-2 border-blue-200">
                                 <div className="flex items-center space-x-3">
                                     <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
                                         <Users className="w-5 h-5 text-blue-600" />
@@ -111,52 +109,52 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onStartJourney }) => {
                                         <div className="text-2xl font-bold text-blue-600">
                                             10K+
                                         </div>
-                                        <div className="text-sm text-gray-600">
+                                        <div className="text-sm text-gray-700 font-medium">
                                             Active Internships
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                            <div className="bg-white rounded-lg p-4 border-2 border-orange-200">
                                 <div className="flex items-center space-x-3">
-                                    <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                                        <Award className="w-5 h-5 text-green-600" />
+                                    <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+                                        <Award className="w-5 h-5 text-orange-600" />
                                     </div>
                                     <div>
-                                        <div className="text-2xl font-bold text-green-600">
+                                        <div className="text-2xl font-bold text-orange-600">
                                             500+
                                         </div>
-                                        <div className="text-sm text-gray-600">
+                                        <div className="text-sm text-gray-700 font-medium">
                                             Partner Companies
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                            <div className="bg-white rounded-lg p-4 border-2 border-blue-200">
                                 <div className="flex items-center space-x-3">
-                                    <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-                                        <TrendingUp className="w-5 h-5 text-orange-600" />
+                                    <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                                        <TrendingUp className="w-5 h-5 text-blue-600" />
                                     </div>
                                     <div>
-                                        <div className="text-2xl font-bold text-orange-600">
+                                        <div className="text-2xl font-bold text-blue-600">
                                             95%
                                         </div>
-                                        <div className="text-sm text-gray-600">
+                                        <div className="text-sm text-gray-700 font-medium">
                                             Success Rate
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                            <div className="bg-white rounded-lg p-4 border-2 border-orange-200">
                                 <div className="flex items-center space-x-3">
-                                    <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-                                        <Globe className="w-5 h-5 text-purple-600" />
+                                    <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+                                        <Globe className="w-5 h-5 text-orange-600" />
                                     </div>
                                     <div>
-                                        <div className="text-2xl font-bold text-purple-600">
+                                        <div className="text-2xl font-bold text-orange-600">
                                             50K+
                                         </div>
-                                        <div className="text-sm text-gray-600">
+                                        <div className="text-sm text-gray-700 font-medium">
                                             Students Placed
                                         </div>
                                     </div>
@@ -168,7 +166,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onStartJourney }) => {
                     {/* Right Content - Visual Elements */}
                     <div className="relative">
                         {/* PM Modi Image */}
-                        <div className="relative bg-gradient-to-br from-blue-100 to-orange-100 rounded-2xl p-8 shadow-xl">
+                        <div className="relative bg-white rounded-lg p-8 border-2 border-blue-200 shadow-lg">
                             <div className="text-center">
                                 <img
                                     src="/modi.png"
@@ -190,11 +188,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onStartJourney }) => {
                                 </div>
                             </div>
 
-                            {/* Floating Icons */}
-                            <div className="absolute -top-4 -right-4 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                            {/* Government Icons */}
+                            <div className="absolute -top-4 -right-4 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
                                 <span className="text-white text-sm">💡</span>
                             </div>
-                            <div className="absolute -bottom-4 -left-4 w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
+                            <div className="absolute -bottom-4 -left-4 w-8 h-8 bg-orange-600 rounded-full flex items-center justify-center">
                                 <span className="text-white text-sm">🚀</span>
                             </div>
                         </div>

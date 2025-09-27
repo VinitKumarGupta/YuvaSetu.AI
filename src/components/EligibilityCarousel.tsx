@@ -62,49 +62,55 @@ const EligibilityCarousel: React.FC = () => {
   const currentCriterion = eligibilityCriteria[currentIndex];
 
   return (
-    <div className="hidden lg:flex items-center space-x-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg px-4 py-2 border border-blue-200">
-      <button
-        onClick={prevSlide}
-        className="p-1 hover:bg-white rounded-full transition-colors"
-        aria-label="Previous criterion"
-      >
-        <ChevronLeft className="w-4 h-4 text-gray-600" />
-      </button>
-      
-      <div className="flex items-center space-x-3 min-w-0 flex-1">
-        <div className={`${currentCriterion.color} flex-shrink-0`}>
-          {currentCriterion.icon}
-        </div>
-        <div className="min-w-0 flex-1">
-          <div className="text-sm font-semibold text-gray-900 truncate">
-            {currentCriterion.title}
+    <div className="w-full bg-blue-600 border-b border-blue-700">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between py-3">
+          <div className="flex items-center space-x-4 flex-1">
+            <button
+              onClick={prevSlide}
+              className="p-2 hover:bg-blue-700 rounded-full transition-colors text-white"
+              aria-label="Previous criterion"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            
+            <div className="flex items-center space-x-3 min-w-0 flex-1">
+              <div className="text-white flex-shrink-0">
+                {currentCriterion.icon}
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="text-sm font-bold text-white truncate">
+                  {currentCriterion.title}
+                </div>
+                <div className="text-xs text-blue-100 truncate">
+                  {currentCriterion.description}
+                </div>
+              </div>
+            </div>
+            
+            <button
+              onClick={nextSlide}
+              className="p-2 hover:bg-blue-700 rounded-full transition-colors text-white"
+              aria-label="Next criterion"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
           </div>
-          <div className="text-xs text-gray-600 truncate">
-            {currentCriterion.description}
+          
+          {/* Dots indicator */}
+          <div className="flex space-x-1 ml-4">
+            {eligibilityCriteria.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+                className={`w-2 h-2 rounded-full transition-colors ${
+                  index === currentIndex ? 'bg-white' : 'bg-blue-300'
+                }`}
+                aria-label={`Go to criterion ${index + 1}`}
+              />
+            ))}
           </div>
         </div>
-      </div>
-      
-      <button
-        onClick={nextSlide}
-        className="p-1 hover:bg-white rounded-full transition-colors"
-        aria-label="Next criterion"
-      >
-        <ChevronRight className="w-4 h-4 text-gray-600" />
-      </button>
-      
-      {/* Dots indicator */}
-      <div className="flex space-x-1">
-        {eligibilityCriteria.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentIndex(index)}
-            className={`w-2 h-2 rounded-full transition-colors ${
-              index === currentIndex ? 'bg-blue-600' : 'bg-gray-300'
-            }`}
-            aria-label={`Go to criterion ${index + 1}`}
-          />
-        ))}
       </div>
     </div>
   );

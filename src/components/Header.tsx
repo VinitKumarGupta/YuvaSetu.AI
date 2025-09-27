@@ -32,7 +32,7 @@ const Header: React.FC = () => {
                             className="h-10 w-auto sm:h-12 md:h-14 lg:h-14"
                         />
                         <div className="hidden sm:block pl-2">
-                            <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-orange-500 bg-clip-text text-transparent">
+                            <h1 className="text-lg sm:text-xl font-bold text-blue-600">
                                 YuvaSetu.AI
                             </h1>
                         </div>
@@ -41,25 +41,23 @@ const Header: React.FC = () => {
                     <nav className="hidden md:flex items-center space-x-8">
                         <Link
                             to="/"
-                            className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+                            className="text-gray-800 hover:text-orange-600 transition-colors font-bold"
                         >
                             {t("nav.home")}
                         </Link>
                         <Link
                             to="/saved"
-                            className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+                            className="text-gray-800 hover:text-orange-600 transition-colors font-bold"
                         >
                             {t("nav.saved")}
                         </Link>
                         <Link
                             to="/learn"
-                            className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+                            className="text-gray-800 hover:text-orange-600 transition-colors font-bold"
                         >
                             {t("nav.learn")}
                         </Link>
                     </nav>
-                    {/* Eligibility Carousel */}
-                    <EligibilityCarousel />
                     {/* Right side actions */}
                     <div className="flex items-center space-x-4">
                         {/* Mobile Navigation */}
@@ -68,7 +66,7 @@ const Header: React.FC = () => {
                         <div className="relative">
                             <button
                                 onClick={() => setShowLangMenu(!showLangMenu)}
-                                className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 transition-colors"
+                                className="flex items-center space-x-1 text-gray-800 hover:text-orange-600 transition-colors"
                                 aria-label={t("nav.language")}
                                 disabled={isTranslating}
                             >
@@ -111,7 +109,7 @@ const Header: React.FC = () => {
                                     onClick={() =>
                                         setShowUserMenu(!showUserMenu)
                                     }
-                                    className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition-colors"
+                                    className="flex items-center space-x-2 text-gray-800 hover:text-orange-600 transition-colors"
                                 >
                                     <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
                                         <User className="w-4 h-4 text-blue-600" />
@@ -146,7 +144,7 @@ const Header: React.FC = () => {
                         ) : (
                             <Link
                                 to="/login"
-                                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                                className="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors font-bold"
                             >
                                 {t("nav.login")}
                             </Link>
