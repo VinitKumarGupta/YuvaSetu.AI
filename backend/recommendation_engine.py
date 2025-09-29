@@ -1,38 +1,39 @@
 import json
 import os
 from typing import List, Dict, Any
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
 import re
 from datetime import datetime
-
-# spaCy will be imported lazily to avoid compatibility issues
+import math
+from collections import Counter
 
 class RecommendationEngine:
     def __init__(self):
         self.internships_data = self._load_internships_data()
-        self.nlp = self._load_spacy_model()
-        self.vectorizer = TfidfVectorizer(max_features=1000, stop_words='english')
-        self._prepare_vectors()
+        print("✅ Lightweight recommendation engine initialized successfully")
         
-    def _load_spacy_model(self):
-        """Load spaCy model for text processing"""
-        try:
-            # Try to import and load spaCy here
-            import spacy
-            # Try to load the English model
-            nlp = spacy.load("en_core_web_sm")
-            print("✅ spaCy English model loaded successfully")
-            return nlp
-        except ImportError:
-            print("⚠️ spaCy not installed. Using basic text processing.")
-            return None
-        except OSError:
-            print("⚠️ spaCy English model not found. Using basic text processing.")
-            return None
-        except Exception as e:
-            print(f"⚠️ Error loading spaCy model ({e}). Using basic text processing.")
-            return None
+    def _calculate_text_similarity(self, text1: str, text2: str) -> float:
+        """Calculate text similarity using cosine similarity with word frequency"""
+        # Simple tokenization and preprocessing
+        def tokenize(text):
+            return re.findall(r'\b\w+\b', text.lower())
+        
+        tokens1 = tokenize(text1)
+        tokens2 = tokenize(text2)
+        
+        # Create word frequency vectors
+        all_words = set(tokens1 + tokens2)
+        vec1 = [tokens1.count(word) for word in all_words]
+        vec2 = [tokens2.count(word) for word in all_words]
+        
+        # Calculate cosine similarity
+        dot_product = sum(a * b for a, b in zip(vec1, vec2))
+        magnitude1 = math.sqrt(sum(a * a for a in vec1))
+        magnitude2 = math.sqrt(sum(a * a for a in vec2))
+        
+        if magnitude1 == 0 or magnitude2 == 0:
+            return 0.0
+        
+        return dot_product / (magnitude1 * magnitude2)
     
     def _load_internships_data(self) -> List[Dict[str, Any]]:
         """Load comprehensive internship dataset"""
@@ -219,19 +220,8 @@ class RecommendationEngine:
             }
         ]
     
-    def _prepare_vectors(self):
-        """Prepare TF-IDF vectors for all internships"""
-        # Combine all text fields for each internship
-        internship_texts = []
-        for internship in self.internships_data:
-            text = f"{internship['title']} {internship['description']} {' '.join(internship['skills'])} {internship['sector']}"
-            internship_texts.append(text)
-        
-        # Fit the vectorizer
-        self.tfidf_matrix = self.vectorizer.fit_transform(internship_texts)
-    
     def _calculate_skill_match_score(self, candidate_skills: List[str], internship_skills: List[str]) -> float:
-        """Calculate skill matching score"""
+        """Calculate skill matching score using lightweight algorithms"""
         if not candidate_skills or not internship_skills:
             return 0.0
         
@@ -242,24 +232,84 @@ class RecommendationEngine:
         # Calculate exact matches
         exact_matches = len(set(candidate_skills_lower) & set(internship_skills_lower))
         
-        # Calculate partial matches using spaCy if available
-        partial_matches = 0
-        if self.nlp:
-            for candidate_skill in candidate_skills:
-                candidate_doc = self.nlp(candidate_skill.lower())
-                for internship_skill in internship_skills:
-                    internship_doc = self.nlp(internship_skill.lower())
-                    # Calculate similarity
-                    similarity = candidate_doc.similarity(internship_doc)
-                    if similarity > 0.7:  # Threshold for partial match
-                        partial_matches += similarity
+        # Calculate semantic matches using lightweight similarity
+        semantic_matches = 0
+        for candidate_skill in candidate_skills_lower:
+            for internship_skill in internship_skills_lower:
+                if candidate_skill == internship_skill:
+                    continue  # Skip exact matches
+                
+                # Calculate text similarity
+                similarity = self._calculate_text_similarity(candidate_skill, internship_skill)
+                if similarity > 0.6:  # Threshold for semantic match
+                    semantic_matches += similarity
+                    break  # Only count the best match per candidate skill
+        
+        # Enhanced keyword matching
+        keyword_matches = self._calculate_keyword_matches(candidate_skills_lower, internship_skills_lower)
         
         # Calculate total score
-        total_skills = len(internship_skills)
-        exact_score = (exact_matches / total_skills) * 0.8
-        partial_score = (partial_matches / total_skills) * 0.2
+        total_skills = len(internship_skills_lower)
+        exact_score = (exact_matches / total_skills) * 0.6
+        semantic_score = (semantic_matches / total_skills) * 0.25
+        keyword_score = (keyword_matches / total_skills) * 0.15
         
-        return min(exact_score + partial_score, 1.0)
+        return min(exact_score + semantic_score + keyword_score, 1.0)
+    
+    def _calculate_keyword_matches(self, candidate_skills: List[str], internship_skills: List[str]) -> float:
+        """Calculate matches based on skill synonyms and related terms"""
+        # Comprehensive skill synonyms and related terms
+        skill_synonyms = {
+            'javascript': ['js', 'node.js', 'react', 'vue', 'angular', 'typescript', 'frontend', 'web development'],
+            'python': ['django', 'flask', 'fastapi', 'data science', 'machine learning', 'backend', 'ai'],
+            'java': ['spring', 'hibernate', 'android', 'backend', 'enterprise'],
+            'web development': ['html', 'css', 'javascript', 'frontend', 'backend', 'full stack', 'responsive'],
+            'digital marketing': ['seo', 'social media', 'content marketing', 'online marketing', 'google ads', 'ppc'],
+            'graphic design': ['photoshop', 'illustrator', 'ui design', 'visual design', 'adobe creative', 'logo design'],
+            'data analysis': ['excel', 'sql', 'analytics', 'statistics', 'business intelligence', 'tableau', 'power bi'],
+            'content writing': ['copywriting', 'blogging', 'technical writing', 'seo writing', 'content creation'],
+            'sales': ['business development', 'customer relations', 'account management', 'crm', 'lead generation'],
+            'finance': ['accounting', 'financial analysis', 'investment', 'banking', 'excel', 'financial modeling'],
+            'ui design': ['ux design', 'figma', 'sketch', 'adobe xd', 'user experience', 'user interface', 'wireframing'],
+            'ux design': ['ui design', 'user research', 'prototyping', 'usability testing', 'user experience'],
+            'mobile development': ['android', 'ios', 'react native', 'flutter', 'swift', 'kotlin', 'app development'],
+            'machine learning': ['ai', 'data science', 'python', 'tensorflow', 'pytorch', 'deep learning', 'neural networks'],
+            'data science': ['machine learning', 'ai', 'python', 'statistics', 'analytics', 'big data'],
+            'backend development': ['api', 'database', 'server', 'microservices', 'cloud', 'devops'],
+            'frontend development': ['html', 'css', 'javascript', 'react', 'vue', 'angular', 'responsive design'],
+            'cloud computing': ['aws', 'azure', 'gcp', 'docker', 'kubernetes', 'devops', 'microservices'],
+            'devops': ['docker', 'kubernetes', 'ci/cd', 'jenkins', 'git', 'cloud computing', 'automation']
+        }
+        
+        keyword_score = 0
+        for candidate_skill in candidate_skills:
+            for internship_skill in internship_skills:
+                # Skip exact matches (already counted)
+                if candidate_skill == internship_skill:
+                    continue
+                
+                # Substring matching for compound skills
+                if len(candidate_skill) > 4 and len(internship_skill) > 4:
+                    if candidate_skill in internship_skill or internship_skill in candidate_skill:
+                        keyword_score += 0.7
+                        continue
+                
+                # Synonym matching
+                for base_skill, synonyms in skill_synonyms.items():
+                    # Check if candidate skill matches base or synonyms
+                    candidate_match = (candidate_skill == base_skill or 
+                                     candidate_skill in synonyms or 
+                                     any(syn in candidate_skill for syn in synonyms if len(syn) > 3))
+                    
+                    internship_match = (internship_skill == base_skill or 
+                                      internship_skill in synonyms or 
+                                      any(syn in internship_skill for syn in synonyms if len(syn) > 3))
+                    
+                    if candidate_match and internship_match:
+                        keyword_score += 0.8
+                        break
+        
+        return keyword_score
     
     def _calculate_sector_match_score(self, candidate_sectors: List[str], internship_sector: str) -> float:
         """Calculate sector matching score"""

@@ -3,21 +3,40 @@
     "builds": [
         {
             "src": "backend/main.py",
-            "use": "@vercel/python"
+            "use": "@vercel/python",
+            "config": {
+                "runtime": "python3.9",
+                "maxLambdaSize": "50mb"
+            }
+        },
+        {
+            "src": "package.json",
+            "use": "@vercel/static-build",
+            "config": {
+                "distDir": "dist"
+            }
         }
     ],
     "routes": [
         {
             "src": "/api/(.*)",
-            "dest": "backend/main.py"
+            "dest": "/backend/main.py"
         },
         {
             "src": "/(recommend|internships|stats|health)",
-            "dest": "backend/main.py"
+            "dest": "/backend/main.py"
         },
         {
             "src": "/(.*)",
-            "dest": "index.html"
+            "dest": "/$1"
         }
-    ]
+    ],
+    "functions": {
+        "backend/main.py": {
+            "maxDuration": 10
+        }
+    },
+    "env": {
+        "PYTHONPATH": "./backend"
+    }
 }
