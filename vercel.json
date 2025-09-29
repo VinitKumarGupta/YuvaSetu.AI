@@ -31,11 +31,6 @@
             "dest": "/$1"
         }
     ],
-    "functions": {
-        "backend/main.py": {
-            "maxDuration": 10
-        }
-    },
     "env": {
         "PYTHONPATH": "./backend"
     }
