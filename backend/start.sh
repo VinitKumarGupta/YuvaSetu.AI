@@ -21,9 +21,9 @@ fi
 echo "📦 Installing Python dependencies..."
 pip3 install -r requirements.txt
 
-# Install spaCy model
+# Install spaCy model (if not already installed)
 echo "🧠 Installing spaCy English model..."
-python3 install_spacy.py
+python3 -m spacy download en_core_web_sm
 
 # Start the server
 echo "🌐 Starting FastAPI server..."

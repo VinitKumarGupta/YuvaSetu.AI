@@ -1,119 +1,101 @@
-import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, CheckCircle, Users, Calendar, GraduationCap, MapPin } from 'lucide-react';
+import React from "react";
+import {
+    CheckCircle,
+    Users,
+    Calendar,
+    GraduationCap,
+    MapPin,
+    Award,
+    Building,
+} from "lucide-react";
 
-const eligibilityCriteria = [
-  {
-    icon: <Users className="w-6 h-6" />,
-    title: "Age Requirement",
-    description: "Must be between 21-24 years",
-    color: "text-blue-600"
-  },
-  {
-    icon: <GraduationCap className="w-6 h-6" />,
-    title: "Education",
-    description: "Graduate or pursuing graduation",
-    color: "text-green-600"
-  },
-  {
-    icon: <Calendar className="w-6 h-6" />,
-    title: "Duration",
-    description: "3-6 months internship period",
-    color: "text-purple-600"
-  },
-  {
-    icon: <MapPin className="w-6 h-6" />,
-    title: "Location",
-    description: "Pan India opportunities available",
-    color: "text-orange-600"
-  },
-  {
-    icon: <CheckCircle className="w-6 h-6" />,
-    title: "Skills",
-    description: "Basic digital literacy required",
-    color: "text-indigo-600"
-  }
+const eligibilityItems = [
+    {
+        icon: <Users className="w-5 h-5" />,
+        text: "Age: 21-24 years • Graduate or pursuing graduation",
+    },
+    {
+        icon: <GraduationCap className="w-5 h-5" />,
+        text: "Skills: Basic digital literacy • Communication skills",
+    },
+    {
+        icon: <Calendar className="w-5 h-5" />,
+        text: "Duration: 3-6 months • Full-time internship opportunity",
+    },
+    {
+        icon: <MapPin className="w-5 h-5" />,
+        text: "Location: Pan India • Remote & On-site options available",
+    },
+    {
+        icon: <Award className="w-5 h-5" />,
+        text: "Benefits: Monthly stipend • Certificate • Work experience",
+    },
+    {
+        icon: <Building className="w-5 h-5" />,
+        text: "Sectors: Technology • Finance • Healthcare • Education • Marketing",
+    },
+    {
+        icon: <CheckCircle className="w-5 h-5" />,
+        text: "Apply now for PM Internship Scheme • Start your career journey",
+    },
 ];
 
 const EligibilityCarousel: React.FC = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+    return (
+        <div className="w-full bg-gradient-to-r from-blue-600 to-blue-700 border-b border-blue-800 overflow-hidden">
+            {/* Add CSS animation styles */}
+            <style>{`
+        @keyframes scroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .animate-scroll {
+          animation: scroll 60s linear infinite;
+        }
+        .animate-scroll:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => 
-        prevIndex === eligibilityCriteria.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) => 
-      prevIndex === eligibilityCriteria.length - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  const prevSlide = () => {
-    setCurrentIndex((prevIndex) => 
-      prevIndex === 0 ? eligibilityCriteria.length - 1 : prevIndex - 1
-    );
-  };
-
-  const currentCriterion = eligibilityCriteria[currentIndex];
-
-  return (
-    <div className="w-full bg-blue-600 border-b border-blue-700">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between py-3">
-          <div className="flex items-center space-x-4 flex-1">
-            <button
-              onClick={prevSlide}
-              className="p-2 hover:bg-blue-700 rounded-full transition-colors text-white"
-              aria-label="Previous criterion"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            
-            <div className="flex items-center space-x-3 min-w-0 flex-1">
-              <div className="text-white flex-shrink-0">
-                {currentCriterion.icon}
-              </div>
-              <div className="min-w-0 flex-1">
-                <div className="text-sm font-bold text-white truncate">
-                  {currentCriterion.title}
+            <div className="relative">
+                {/* Scrolling container */}
+                <div className="flex animate-scroll whitespace-nowrap py-3">
+                    {/* First set of items */}
+                    {eligibilityItems.map((item, index) => (
+                        <div
+                            key={`first-${index}`}
+                            className="flex items-center space-x-3 mx-8 flex-shrink-0"
+                        >
+                            <div className="text-blue-100 flex-shrink-0">
+                                {item.icon}
+                            </div>
+                            <span className="text-white text-sm font-medium">
+                                {item.text}
+                            </span>
+                        </div>
+                    ))}
+                    {/* Duplicate set for seamless loop */}
+                    {eligibilityItems.map((item, index) => (
+                        <div
+                            key={`second-${index}`}
+                            className="flex items-center space-x-3 mx-8 flex-shrink-0"
+                        >
+                            <div className="text-blue-100 flex-shrink-0">
+                                {item.icon}
+                            </div>
+                            <span className="text-white text-sm font-medium">
+                                {item.text}
+                            </span>
+                        </div>
+                    ))}
                 </div>
-                <div className="text-xs text-blue-100 truncate">
-                  {currentCriterion.description}
-                </div>
-              </div>
+
+                {/* Gradient fade edges */}
+                <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-blue-600 to-transparent pointer-events-none"></div>
+                <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-blue-700 to-transparent pointer-events-none"></div>
             </div>
-            
-            <button
-              onClick={nextSlide}
-              className="p-2 hover:bg-blue-700 rounded-full transition-colors text-white"
-              aria-label="Next criterion"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
-          
-          {/* Dots indicator */}
-          <div className="flex space-x-1 ml-4">
-            {eligibilityCriteria.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentIndex(index)}
-                className={`w-2 h-2 rounded-full transition-colors ${
-                  index === currentIndex ? 'bg-white' : 'bg-blue-300'
-                }`}
-                aria-label={`Go to criterion ${index + 1}`}
-              />
-            ))}
-          </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default EligibilityCarousel;

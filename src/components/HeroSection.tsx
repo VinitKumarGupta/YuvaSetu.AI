@@ -12,9 +12,13 @@ import { useI18n } from "../i18n/i18n";
 
 interface HeroSectionProps {
     onStartJourney: () => void;
+    isAuthenticated?: boolean;
 }
 
-const HeroSection: React.FC<HeroSectionProps> = ({ onStartJourney }) => {
+const HeroSection: React.FC<HeroSectionProps> = ({
+    onStartJourney,
+    isAuthenticated = false,
+}) => {
     const { t } = useI18n();
     const navigate = useNavigate();
 
@@ -82,9 +86,17 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onStartJourney }) => {
                             <button
                                 onClick={onStartJourney}
                                 className="group bg-orange-600 text-white px-8 py-4 rounded-lg hover:bg-orange-700 transition-colors font-bold text-lg flex items-center space-x-2"
-                                aria-label={t("hero.start")}
+                                aria-label={
+                                    isAuthenticated
+                                        ? t("hero.start")
+                                        : "Login to Start"
+                                }
                             >
-                                <span>{t("hero.start")}</span>
+                                <span>
+                                    {isAuthenticated
+                                        ? t("hero.start")
+                                        : "Login to Start Journey"}
+                                </span>
                                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                             </button>
 

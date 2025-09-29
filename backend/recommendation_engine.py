@@ -3,9 +3,10 @@ import os
 from typing import List, Dict, Any
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-import spacy
 import re
 from datetime import datetime
+
+# spaCy will be imported lazily to avoid compatibility issues
 
 class RecommendationEngine:
     def __init__(self):
@@ -17,11 +18,20 @@ class RecommendationEngine:
     def _load_spacy_model(self):
         """Load spaCy model for text processing"""
         try:
+            # Try to import and load spaCy here
+            import spacy
             # Try to load the English model
             nlp = spacy.load("en_core_web_sm")
+            print("✅ spaCy English model loaded successfully")
             return nlp
+        except ImportError:
+            print("⚠️ spaCy not installed. Using basic text processing.")
+            return None
         except OSError:
-            print("Warning: spaCy English model not found. Using basic text processing.")
+            print("⚠️ spaCy English model not found. Using basic text processing.")
+            return None
+        except Exception as e:
+            print(f"⚠️ Error loading spaCy model ({e}). Using basic text processing.")
             return None
     
     def _load_internships_data(self) -> List[Dict[str, Any]]:
@@ -39,7 +49,7 @@ class RecommendationEngine:
                 "description": "Join our dynamic marketing team to create engaging digital campaigns and grow our online presence. Learn modern marketing tools and strategies.",
                 "requirements": ["Basic knowledge of social media platforms", "Good communication skills", "Creative mindset", "Basic understanding of marketing concepts"],
                 "education_level": "Graduate",
-                "age_range": "21-25",
+                "age_range": "21-24",
                 "experience_level": "Entry"
             },
             {
@@ -54,7 +64,7 @@ class RecommendationEngine:
                 "description": "Work with our engineering team to build cutting-edge web applications and learn modern development practices.",
                 "requirements": ["Knowledge of JavaScript", "Understanding of web development concepts", "Problem-solving skills", "Basic programming experience"],
                 "education_level": "Graduate",
-                "age_range": "21-26",
+                "age_range": "21-24",
                 "experience_level": "Entry"
             },
             {
@@ -69,7 +79,7 @@ class RecommendationEngine:
                 "description": "Create visually stunning designs for digital and print media while learning from experienced designers.",
                 "requirements": ["Proficiency in design software", "Creative portfolio", "Attention to detail", "Understanding of design principles"],
                 "education_level": "Graduate",
-                "age_range": "21-25",
+                "age_range": "21-24",
                 "experience_level": "Entry"
             },
             {
@@ -84,7 +94,7 @@ class RecommendationEngine:
                 "description": "Analyze business processes and help optimize operations through data-driven insights.",
                 "requirements": ["Strong analytical skills", "Proficiency in Excel", "Business acumen", "Attention to detail"],
                 "education_level": "Graduate",
-                "age_range": "21-26",
+                "age_range": "21-24",
                 "experience_level": "Entry"
             },
             {
@@ -99,7 +109,7 @@ class RecommendationEngine:
                 "description": "Create engaging content for various digital platforms and learn SEO best practices.",
                 "requirements": ["Excellent writing skills", "Research abilities", "Creativity", "Understanding of digital media"],
                 "education_level": "Graduate",
-                "age_range": "21-25",
+                "age_range": "21-24",
                 "experience_level": "Entry"
             },
             {
@@ -114,7 +124,7 @@ class RecommendationEngine:
                 "description": "Work on real-world data science projects and learn advanced analytics techniques.",
                 "requirements": ["Strong mathematical background", "Python programming", "Understanding of statistics", "Problem-solving skills"],
                 "education_level": "Post Graduate",
-                "age_range": "22-26",
+                "age_range": "22-24",
                 "experience_level": "Entry"
             },
             {
@@ -129,7 +139,7 @@ class RecommendationEngine:
                 "description": "Learn HR operations, recruitment processes, and employee management systems.",
                 "requirements": ["Good communication skills", "Organizational abilities", "Interest in human resources", "Basic computer skills"],
                 "education_level": "Graduate",
-                "age_range": "21-25",
+                "age_range": "21-24",
                 "experience_level": "Entry"
             },
             {
@@ -144,7 +154,7 @@ class RecommendationEngine:
                 "description": "Develop sales and marketing skills while working with real clients and projects.",
                 "requirements": ["Excellent communication skills", "Sales aptitude", "Customer service orientation", "Goal-oriented mindset"],
                 "education_level": "Graduate",
-                "age_range": "21-26",
+                "age_range": "21-24",
                 "experience_level": "Entry"
             },
             {
@@ -159,7 +169,7 @@ class RecommendationEngine:
                 "description": "Gain hands-on experience in financial analysis, accounting, and financial reporting.",
                 "requirements": ["Strong analytical skills", "Understanding of accounting principles", "Excel proficiency", "Attention to detail"],
                 "education_level": "Graduate",
-                "age_range": "21-26",
+                "age_range": "21-24",
                 "experience_level": "Entry"
             },
             {
@@ -174,7 +184,7 @@ class RecommendationEngine:
                 "description": "Learn operations management, process optimization, and project coordination.",
                 "requirements": ["Analytical thinking", "Process orientation", "Communication skills", "Problem-solving abilities"],
                 "education_level": "Graduate",
-                "age_range": "21-26",
+                "age_range": "21-24",
                 "experience_level": "Entry"
             },
             {
@@ -189,7 +199,7 @@ class RecommendationEngine:
                 "description": "Learn healthcare administration, patient management, and medical record systems.",
                 "requirements": ["Interest in healthcare", "Administrative skills", "Communication abilities", "Compassionate nature"],
                 "education_level": "Graduate",
-                "age_range": "21-25",
+                "age_range": "21-24",
                 "experience_level": "Entry"
             },
             {
@@ -204,7 +214,7 @@ class RecommendationEngine:
                 "description": "Work on educational technology solutions and digital learning platforms.",
                 "requirements": ["Interest in education technology", "Content creation skills", "Digital literacy", "Communication abilities"],
                 "education_level": "Graduate",
-                "age_range": "21-26",
+                "age_range": "21-24",
                 "experience_level": "Entry"
             }
         ]

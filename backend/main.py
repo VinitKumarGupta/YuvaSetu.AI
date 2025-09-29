@@ -15,14 +15,27 @@ app = FastAPI(
 # CORS middleware for frontend integration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=[
+        "http://localhost:3000", 
+        "http://localhost:5173", 
+        "http://127.0.0.1:5173",
+        "http://localhost:4173",
+        "http://127.0.0.1:4173",
+        "https://*.vercel.app",
+        "*"  # Allow all origins for development - remove in production
+    ],
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
 
 # Initialize recommendation engine
-recommendation_engine = RecommendationEngine()
+try:
+    recommendation_engine = RecommendationEngine()
+    print("✅ Recommendation engine initialized successfully")
+except Exception as e:
+    print(f"⚠️  Error initializing recommendation engine: {e}")
+    recommendation_engine = None
 
 class CandidateProfile(BaseModel):
     age: str
@@ -70,9 +83,14 @@ async def get_recommendations(request: RecommendationRequest):
     """
     Get personalized internship recommendations based on candidate profile
     """
+    if not recommendation_engine:
+        raise HTTPException(status_code=500, detail="Recommendation engine not available")
+    
     try:
         import time
         start_time = time.time()
+        
+        print(f"📝 Processing recommendation request for profile: {request.profile.model_dump()}")
         
         # Get recommendations from the engine
         recommendations = recommendation_engine.get_recommendations(
@@ -85,6 +103,8 @@ async def get_recommendations(request: RecommendationRequest):
         
         processing_time = time.time() - start_time
         
+        print(f"✅ Generated {len(recommendations)} recommendations in {processing_time:.3f}s")
+        
         return RecommendationResponse(
             recommendations=recommendations,
             total_matches=len(recommendations),
@@ -92,6 +112,7 @@ async def get_recommendations(request: RecommendationRequest):
         )
         
     except Exception as e:
+        print(f"❌ Error generating recommendations: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Error generating recommendations: {str(e)}")
 
 @app.get("/internships")
@@ -99,9 +120,15 @@ async def get_all_internships():
     """
     Get all available internships (for debugging/admin purposes)
     """
+    if not recommendation_engine:
+        raise HTTPException(status_code=500, detail="Recommendation engine not available")
+    
     try:
-        return recommendation_engine.get_all_internships()
+        internships = recommendation_engine.get_all_internships()
+        print(f"✅ Retrieved {len(internships)} internships")
+        return {"internships": internships, "total": len(internships)}
     except Exception as e:
+        print(f"❌ Error fetching internships: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Error fetching internships: {str(e)}")
 
 @app.get("/stats")
@@ -109,10 +136,15 @@ async def get_stats():
     """
     Get system statistics
     """
+    if not recommendation_engine:
+        raise HTTPException(status_code=500, detail="Recommendation engine not available")
+    
     try:
         stats = recommendation_engine.get_stats()
+        print("✅ Retrieved system stats")
         return stats
     except Exception as e:
+        print(f"❌ Error fetching stats: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Error fetching stats: {str(e)}")
 
 if __name__ == "__main__":

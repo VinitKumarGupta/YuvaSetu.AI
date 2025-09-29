@@ -2,68 +2,104 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Remove focus outline boxes */
+a:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+button:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+*:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
 /* Accessibility Features */
 .high-contrast {
-  filter: contrast(150%) brightness(120%);
+    filter: contrast(150%) brightness(120%);
 }
 
 .high-contrast * {
-  background-color: #000 !important;
-  color: #fff !important;
-  border-color: #fff !important;
+    background-color: #000 !important;
+    color: #fff !important;
+    border-color: #fff !important;
 }
 
 .large-text {
-  font-size: 1.2em;
+    font-size: 1.2em;
 }
 
 .large-text h1 {
-  font-size: 2.5em !important;
+    font-size: 2.5em !important;
 }
 
 .large-text h2 {
-  font-size: 2em !important;
+    font-size: 2em !important;
 }
 
 .large-text h3 {
-  font-size: 1.8em !important;
+    font-size: 1.8em !important;
 }
 
-.large-text p, .large-text span, .large-text div {
-  font-size: 1.2em !important;
+.large-text p,
+.large-text span,
+.large-text div {
+    font-size: 1.2em !important;
 }
 
 .large-text button {
-  padding: 1rem 2rem !important;
-  font-size: 1.2em !important;
+    padding: 1rem 2rem !important;
+    font-size: 1.2em !important;
 }
 
 /* Focus indicators for accessibility */
 *:focus {
-  outline: 3px solid #3b82f6 !important;
-  outline-offset: 2px !important;
+    outline: 3px solid #3b82f6 !important;
+    outline-offset: 2px !important;
 }
 
 /* Reduced motion for users who prefer it */
 @media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }
 
 /* High contrast mode for better visibility */
 @media (prefers-contrast: high) {
-  .bg-white {
-    background-color: #ffffff !important;
-  }
-  
-  .text-gray-900 {
-    color: #000000 !important;
-  }
-  
-  .border-gray-200 {
-    border-color: #000000 !important;
-  }
+    .bg-white {
+        background-color: #ffffff !important;
+    }
+
+    .text-gray-900 {
+        color: #000000 !important;
+    }
+
+    .border-gray-200 {
+        border-color: #000000 !important;
+    }
 }

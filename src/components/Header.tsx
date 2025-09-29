@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { ChevronDown, User, LogOut, Bookmark, Globe } from "lucide-react";
 import { useI18n } from "../i18n/i18n";
 import { getUser, logout } from "../lib/auth";
-import EligibilityCarousel from "./EligibilityCarousel";
 import MobileNavigation from "./MobileNavigation";
 
 const Header: React.FC = () => {
@@ -41,19 +40,21 @@ const Header: React.FC = () => {
                     <nav className="hidden md:flex items-center space-x-8">
                         <Link
                             to="/"
-                            className="text-gray-800 hover:text-orange-600 transition-colors font-bold"
+                            className="text-gray-800 hover:text-orange-600 transition-colors font-bold focus:outline-none focus:ring-0"
                         >
                             {t("nav.home")}
                         </Link>
-                        <Link
-                            to="/saved"
-                            className="text-gray-800 hover:text-orange-600 transition-colors font-bold"
-                        >
-                            {t("nav.saved")}
-                        </Link>
+                        {user && (
+                            <Link
+                                to="/saved"
+                                className="text-gray-800 hover:text-orange-600 transition-colors font-bold focus:outline-none focus:ring-0"
+                            >
+                                {t("nav.saved")}
+                            </Link>
+                        )}
                         <Link
                             to="/learn"
-                            className="text-gray-800 hover:text-orange-600 transition-colors font-bold"
+                            className="text-gray-800 hover:text-orange-600 transition-colors font-bold focus:outline-none focus:ring-0"
                         >
                             {t("nav.learn")}
                         </Link>
@@ -76,22 +77,41 @@ const Header: React.FC = () => {
                                         ? "..."
                                         : language.toUpperCase()}
                                 </span>
-                                <ChevronDown className="w-3 h-3" />
+                                {isTranslating ? (
+                                    <div className="w-3 h-3 border-2 border-orange-600 border-t-transparent rounded-full animate-spin"></div>
+                                ) : (
+                                    <ChevronDown className="w-3 h-3" />
+                                )}
                             </button>
-                            {showLangMenu && (
+                            {showLangMenu && !isTranslating && (
                                 <div className="absolute right-0 mt-2 w-48 max-h-96 overflow-y-auto bg-white rounded-md shadow-lg border border-gray-200 py-1 z-10">
+                                    {isTranslating && (
+                                        <div className="px-4 py-2 text-sm text-gray-500 text-center">
+                                            <div className="flex items-center justify-center space-x-2">
+                                                <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                                                <span>Translating...</span>
+                                            </div>
+                                        </div>
+                                    )}
                                     {Object.entries(languageNames).map(
                                         ([code, name]) => (
                                             <button
                                                 key={code}
                                                 onClick={() => {
-                                                    setLanguage(code as any);
+                                                    setLanguage(
+                                                        code as keyof typeof languageNames
+                                                    );
                                                     setShowLangMenu(false);
                                                 }}
+                                                disabled={isTranslating}
                                                 className={`block w-full text-left px-4 py-2 text-sm transition-colors ${
                                                     language === code
                                                         ? "bg-blue-50 text-blue-600"
                                                         : "text-gray-700 hover:bg-gray-50"
+                                                } ${
+                                                    isTranslating
+                                                        ? "opacity-50 cursor-not-allowed"
+                                                        : ""
                                                 }`}
                                             >
                                                 {name}
